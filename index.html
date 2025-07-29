@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flight Booking Details</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        .flight-card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .airline-logo {
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+        }
+        .airline-name {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+        .flight-time {
+            font-size: clamp(22px, 4vw, 24px);
+            font-weight: 600;
+        }
+        .flight-duration {
+            color: #6c757d;
+            font-size: 14px;
+        }
+        .location {
+            color: #495057;
+            font-size: 14px;
+            text-overflow: ellipsis;
+            max-width: 100px;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        @media (min-width: 1023.99px) {
+            .location {
+                text-overflow: unset;
+                max-width: 200px;
+                overflow: unset;
+                white-space: normal;
+            }
+        }
+        @media (max-width: 399.99px) {
+            .location {
+                max-width: 80px;
+                min-width: 80px;
+            }   
+        }
+        .transfer-badge {
+            background-color: #f8f9fa;
+            color: #6c757d;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+        .pax-count {
+            color: #6c757d;
+            font-size: 14px;
+        }
+        .add-pax-btn {
+            color: #0d6efd;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .sidebar-card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 4px;
+        }
+        .total-row {
+            border-top: 1px solid #dee2e6;
+            padding-top: 15px;
+            margin-top: 15px;
+            font-size: 22px;
+            font-weight: 600;
+        }
+        .passenger-table {
+            width: 100%;
+        }
+        .passenger-table th {
+            color: #6c757d;
+            font-weight: normal;
+            font-size: 14px;
+        }
+        .edit-details {
+            color: #6c757d;
+            text-decoration: none;
+            font-size: 14px;
+        }
+    </style>
+
+    <link rel="stylesheet" href="layout.min.css">
+</head>
+
+<body>
+
+    <div class="container py-6">
+
+        <div class="mb-5">
+            <div class="row align-items-center gy-3">
+                <div class="col-sm">
+                    <h1>Title Here </h1>
+                    <p class="fs-6 fw-normal text-muted mb-0">Tour operators name here </p>
+                </div>
+                <div class="col-auto">
+                    <div class="d-flex flex-wrap my-2">
+                        <div class="me-4">
+                            <select class="form-select w-125px select2-hidden-accessible" name="status" data-control="select2" data-hide-search="true" data-select2-id="select2-data-9-z5gc" tabindex="-1" aria-hidden="true" data-kt-initialized="1">
+                                <option value="Active" selected="" data-select2-id="select2-data-11-somc">Active</option>
+                                <option value="Approved" data-select2-id="select2-data-201-eykh">In Progress</option>
+                                <option value="Declined" data-select2-id="select2-data-202-busd">To Do</option>
+                                <option value="In Progress" data-select2-id="select2-data-203-idkp">Completed</option>
+                            </select>
+                            <span class="select2 select2-container select2-container--bootstrap5 select2-container--below select2-container--focus" dir="ltr" data-select2-id="select2-data-10-g2ht" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single form-select form-select-sm form-select-solid w-125px" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-status-ky-container" aria-controls="select2-status-ky-container"><span class="select2-selection__rendered" id="select2-status-ky-container" role="textbox" aria-readonly="true" title="Active">Active</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+                        </div>
+                        <div class="card-toolbar">
+                            <button class="btn btn-white btn-active-white btn-sm" 
+                                data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" data-kt-menu-overflow="true">
+                                <span>...</span>
+                            </button>
+                            <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg-light-primary fw-semibold w-125px py-2" data-kt-menu="true" style="">
+                                <div class="menu-item px-3">
+                                    <a href="#" class="menu-link px-3">
+                                        Edit details
+                                    </a>
+                                </div>
+                                <div class="separator"></div>
+                                <div class="menu-item px-3">
+                                    <a href="#" class="menu-link text-danger px-3">
+                                        Delete pax
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="mb-10">
+                    <div class="flight-card mb-3">
+                        <div class="d-flex justify-content-between align-items-center mb-5">
+                            <div>08th Feb, 2025</div>
+                            <div class="pax-count">03 pax</div>
+                        </div>
+                        <div class="row justify-content-center justify-content-md-start align-items-center gy-3">
+                            <div class="col-md-3">
+                                <div class="d-inline-flex flex-row align-items-center gap-3">
+                                    <img class="airline-logo" src="https://cdn.prod.website-files.com/6735ce14818818c9d470335f/67502cea7b9c1eacdb496ad0_logo%20footer.avif" alt="Miracle Air">
+                                    <div>
+                                        <p class="airline-name mb-0">Miracle Air</p>
+                                        <p class="flight-number mb-0">5H - AZH</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-9">
+                                <div class="row align-items-center justify-content-between">
+                                    <div class="col-auto col-lg-3">
+                                        <div class="flight-time">10:00</div>
+                                        <div class="location">Arusha (ARK)
+                                            Arusha (ARK)
+                                            Arusha (ARK)
+                                        </div>
+                                    </div>
+                                    <div class="col text-center mt-0 mt-md-2">
+                                        <div>✈️</div>
+                                        <div class="flight-duration">00:50</div>
+                                    </div>
+                                    <div class="col-auto col-lg-3 text-end">
+                                        <div class="flight-time">10:50</div>
+                                        <div class="location">Seronera (SEU) Seronera (SEU) Seronera (SEU)</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="separator separator-dashed my-6"></div>
+                        <div>
+                            <a href="" class="btn btn-light-primary d-block" 
+                            data-bs-toggle="modal" data-bs-target="#add_pax_modal">Add pax details</a>
+                        </div>
+                    </div>
+                    <div class="flight-card">
+                        <div class="d-flex justify-content-between align-items-center mb-5">
+                            <div>08th Feb, 2025</div>
+                            <div class="pax-count">Transfer flight</div>
+                        </div>
+                        <div class="row justify-content-center justify-content-md-start align-items-center gy-3">
+                            <div class="col-md-3">
+                                <div class="d-inline-flex flex-row align-items-center gap-3">
+                                    <img class="airline-logo" src="https://cdn.prod.website-files.com/6735ce14818818c9d470335f/67502cea7b9c1eacdb496ad0_logo%20footer.avif" alt="Miracle Air">
+                                    <div>
+                                        <p class="airline-name mb-0">Miracle Air</p>
+                                        <p class="flight-number mb-0">5H - AZH</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <div class="flight-time">10:00</div>
+                                <div class="location">Arusha (ARK)</div>
+                            </div>
+                            <div class="col col-md-2 text-center align-self-center">
+                                <div>✈️</div>
+                                <div class="flight-duration">00:50</div>
+                            </div>
+                            <div class="col-auto">
+                                <div class="flight-time">10:50</div>
+                                <div class="location">Seronera (SEU)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-10">
+                    <div class="flight-card mb-3">
+                        <div class="d-flex justify-content-between align-items-center mb-5">
+                            <div>08th Feb, 2025</div>
+                            <div class="pax-count">Transfer flight</div>
+                        </div>
+                        <div class="row justify-content-center justify-content-md-start align-items-center gy-3">
+                            <div class="col-md-3">
+                                <div class="d-inline-flex flex-row align-items-center gap-3">
+                                    <img class="airline-logo" src="https://cdn.prod.website-files.com/6735ce14818818c9d470335f/67502cea7b9c1eacdb496ad0_logo%20footer.avif" alt="Miracle Air">
+                                    <div>
+                                        <p class="airline-name mb-0">Miracle Air</p>
+                                        <p class="flight-number mb-0">5H - AZH</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <div class="flight-time">10:00</div>
+                                <div class="location">Arusha (ARK)</div>
+                            </div>
+                            <div class="col col-md-2 text-center align-self-center">
+                                <div>✈️</div>
+                                <div class="flight-duration">00:50</div>
+                            </div>
+                            <div class="col-auto">
+                                <div class="flight-time">10:50</div>
+                                <div class="location">Seronera (SEU)</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flight-card mb-3">
+                        <div class="d-flex justify-content-between align-items-center mb-5">
+                            <div>08th Feb, 2025</div>
+                            <div class="pax-count">03 pax</div>
+                        </div>
+                        <div class="row justify-content-center justify-content-md-start align-items-center gy-3">
+                            <div class="col-md-3">
+                                <div class="d-inline-flex flex-row align-items-center gap-3">
+                                    <img class="airline-logo" src="https://cdn.prod.website-files.com/6735ce14818818c9d470335f/67502cea7b9c1eacdb496ad0_logo%20footer.avif" alt="Miracle Air">
+                                    <div>
+                                        <p class="airline-name mb-0">Miracle Air</p>
+                                        <p class="flight-number mb-0">5H - AZH</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <div class="flight-time">10:00</div>
+                                <div class="location">Arusha (ARK)</div>
+                            </div>
+                            <div class="col col-md-2 text-center align-self-center">
+                                <div>✈️</div>
+                                <div class="flight-duration">00:50</div>
+                            </div>
+                            <div class="col-auto">
+                                <div class="flight-time">10:50</div>
+                                <div class="location">Seronera (SEU)</div>
+                            </div>
+                        </div>
+                        <div class="separator separator-dashed my-6"></div>
+                        <div>
+                            <a href="" class="btn btn-light-primary d-block">Add pax details</a>
+                        </div>
+                    </div>
+                    <div class="flight-card">
+                        <div class="d-flex justify-content-between align-items-center mb-5">
+                            <div>08th Feb, 2025</div>
+                            <div class="pax-count">03 pax</div>
+                        </div>
+                        <div class="row justify-content-center justify-content-md-start align-items-center gy-3">
+                            <div class="col-md-3">
+                                <div class="d-inline-flex flex-row align-items-center gap-3">
+                                    <img class="airline-logo" src="https://cdn.prod.website-files.com/6735ce14818818c9d470335f/67502cea7b9c1eacdb496ad0_logo%20footer.avif" alt="Miracle Air">
+                                    <div>
+                                        <p class="airline-name mb-0">Miracle Air</p>
+                                        <p class="flight-number mb-0">5H - AZH</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <div class="flight-time">10:00</div>
+                                <div class="location">Arusha (ARK)</div>
+                            </div>
+                            <div class="col col-md-2 text-center align-self-center">
+                                <div>✈️</div>
+                                <div class="flight-duration">00:50</div>
+                            </div>
+                            <div class="col-auto">
+                                <div class="flight-time">10:50</div>
+                                <div class="location">Seronera (SEU)</div>
+                            </div>
+                        </div>
+                        <div class="separator separator-dashed my-6"></div>
+                        <div class="card border">
+                            <div class="card-body py-5">
+                                <div class="table-responsive">
+                                    <table class="table passenger-table">
+                                        <thead>
+                                            <tr>
+                                                <th class="min-w-125px">NAME</th>
+                                                <th class="min-w-125px">COUNTRY</th>
+                                                <th class="min-w-125px">PASSPORT NO.</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr class="align-middle">
+                                                <td>Alexis Johnson (Male)</td>
+                                                <td>United Kingdom</td>
+                                                <td>391840292</td>
+                                                <td>
+                                                    <div class="card-toolbar">
+                                                        <button class="btn btn-flush justify-content-end"
+                                                            data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" data-kt-menu-overflow="true">
+                                                            ...
+                                                        </button>
+                                                        <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg-light-primary fw-semibold w-125px py-2" data-kt-menu="true">
+                                                            <div class="menu-item px-3">
+                                                                <a href="#" class="menu-link px-3">
+                                                                    Edit details
+                                                                </a>
+                                                            </div>
+                                                            <div class="separator"></div>
+                                                            <div class="menu-item px-3">
+                                                                <a href="#" class="menu-link text-danger px-3">
+                                                                    Delete pax
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr class="align-middle">
+                                                <td>Alexis Johnson (Male)</td>
+                                                <td>United Kingdom</td>
+                                                <td>391840292</td>
+                                                <td>
+                                                    <div class="card-toolbar">
+                                                        <button class="btn btn-flush justify-content-end"
+                                                            data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end" data-kt-menu-overflow="true">
+                                                            ...
+                                                        </button>
+                                                        <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg-light-primary fw-semibold w-125px py-2" data-kt-menu="true">
+                                                            <div class="menu-item px-3">
+                                                                <a href="#" class="menu-link px-3">
+                                                                    Edit details
+                                                                </a>
+                                                            </div>
+                                                            <div class="separator"></div>
+                                                            <div class="menu-item px-3">
+                                                                <a href="#" class="menu-link text-danger px-3">
+                                                                    Delete pax
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div>
+                                    <a href="" class="btn btn-light-primary d-block">Add pax details</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="sidebar-card">
+                    <h5 class="mb-1">Pricing breakup</h5>
+                    <p class="text-muted small">Based on Mileage and 1 pilot</p>
+                    <div class="price-row">
+                        <span>Aircraft charges</span>
+                        <span>$2650</span>
+                    </div>
+                    <div class="price-row">
+                        <span>Discount: 10%</span>
+                        <span>-$265</span>
+                    </div>
+                    <div class="price-row">
+                        <span class="fw-bold">Net before taxes</span>
+                        <span class="fw-bold">$2385</span>
+                    </div>
+
+                    <div class="separator my-5"></div>
+
+                    <div class="price-row">
+                        <span>Landing, Navigation, & Handling</span>
+                        <span>$217</span>
+                    </div>
+                    <div class="price-row">
+                        <span>Other charges</span>
+                        <span>$0</span>
+                    </div>
+                    <div class="price-row">
+                        <span class="fw-bold">Total cost of Charter</span>
+                        <span class="fw-bold">$2602</span>
+                    </div>
+
+                    <div class="separator my-5"></div>
+
+                    <div class="price-row">
+                        <span>Departure, Saftety, & Security</span>
+                        <span>$78</span>
+                    </div>
+
+                    <div class="separator my-5"></div>
+
+                    <div class="price-row">
+                        <span>Flight: Connection Flight (3 pax) <br> 08/02/25: Arusha - Zanzibar</span>
+                        <span>$450</span>
+                    </div>
+
+                    <div class="price-row total-row">
+                        <span>Total</span>
+                        <span>$3130</span>
+                    </div>
+                </div>
+                <div class="sidebar-card">
+                    <h5 class="mb-4">Download invoice/ticket</h5>
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-light-primary">Download Invoice</button>
+                        <button class="btn btn-light-primary">Download Tickets</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" tabindex="-1" id="add_pax_modal">
+        <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="mx-auto">
+                        <h5 class="modal-title fs-4 text-center">Add 3 pax details</h5>
+                        <div class="text-center">
+                            <p class="mb-0">Arusha (ARK) - Seronera (SEU)</p>
+                            <p class="mb-0">08th Feb, 2025: 10:00</p>
+                        </div>
+                    </div>
+                    <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                        X
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-11">
+                            <div class="row justify-content-center align-items-center gy-5">
+                                <div class="col-md-6 col-lg-4">
+                                    <label for="" class="mb-1">First name</label>
+                                    <input class="form-control" type="text">
+                                </div>
+                                <div class="col-md-6 col-lg-4">
+                                    <label for="" class="mb-1">Last name</label>
+                                    <input class="form-control" type="text">
+                                </div>
+                                <div class="col-md-6 col-lg-4">
+                                    <label for="" class="mb-1">Gender</label>
+                                    <input class="form-control" type="text">
+                                </div>
+                                <div class="col-md-6 col-lg-4">
+                                    <label for="" class="mb-1">Date of birth</label>
+                                    <input class="form-control" type="text">
+                                </div>
+                                <div class="col-md-6 col-lg-4">
+                                    <label for="" class="mb-1">Country</label>
+                                    <input class="form-control" type="text">
+                                </div>
+                                <div class="col-md-6 col-lg-4">
+                                    <label for="" class="mb-1">Passport no:</label>
+                                    <input class="form-control" type="text">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center mt-6">
+                        <div class="col-lg-10">
+                            <div class="row gy-3">
+                                <div class="col-md-6">
+                                    <div class="form-check d-flex align-items-center gap-3">
+                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
+                                        <label class="form-check-label" for="flexCheckDefault">
+                                            Arusha (ARK) - Seronera (SEU)
+                                            <br>
+                                            <span>08th Feb, 2025: 10:00</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-check d-flex align-items-center gap-3">
+                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
+                                        <label class="form-check-label" for="flexCheckDefault">
+                                            Arusha (ARK) - Seronera (SEU)
+                                            <br>
+                                            <span>08th Feb, 2025: 10:00</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-check d-flex align-items-center gap-3">
+                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
+                                        <label class="form-check-label" for="flexCheckDefault">
+                                            Arusha (ARK) - Seronera (SEU)
+                                            <br>
+                                            <span>08th Feb, 2025: 10:00</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer mx-auto">
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="layout.min.js"></script>
+    <script src="plugins.bundle.js"></script>
+</body>
+</html>
